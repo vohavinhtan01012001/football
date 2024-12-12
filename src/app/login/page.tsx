@@ -1,14 +1,16 @@
 'use client'
 import { useState, FormEvent } from 'react';
 import Image from 'next/image';
-
+import { useRouter } from 'next/navigation'
 const Login = () => {
     const [adminId, setAdminId] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const router = useRouter()
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         console.log('Đăng nhập với ID:', adminId, 'Mật khẩu:', password);
+        router.push('/');
     };
 
     return (
