@@ -3,7 +3,7 @@
 import Table from "@/components/share/table";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import PhotoGrid from "@/components/share/photoGrid";
 
 const dummyData = [
@@ -102,22 +102,20 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<"table" | "video">("table");
   const router = useRouter();
   const [filterColumn, setFilterColumn] = useState(columns[1].key);
-  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filteredData = dummyData.filter((item: any) =>
-    item[filterColumn]?.toString().toLowerCase().includes(search.toLowerCase())
+    item[filterColumn]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="p-4 font-sans">
+      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="text-xl font-bold">
-          <Image
-            src="/images/logo.png"
-            alt="Football Logo"
-            width={120}
-            height={60}
-          />
+          <Image src="/images/logo.png" alt="Football Logo" width={120} height={60} />
         </div>
         <div className="flex items-end gap-3 flex-col">
           <h1 className="font-bold text-xl text-end">관리자님 환영합니다.</h1>
@@ -125,7 +123,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex space-x-4 h-11 border-t border-b-2 border-b-black mb-8 justify-center ">
+      {/* Tab Navigation */}
+      <div className="flex space-x-4 h-11 border-t border-b-2 border-b-black mb-8 justify-center">
         <button
           className={`py-2 w-32 h-full flex items-center justify-center ${currentPage === "table" ? "bg-black text-white" : "text-gray-500"}`}
           onClick={() => setCurrentPage("table")}
@@ -140,6 +139,7 @@ export default function Home() {
         </button>
       </div>
 
+      {/* Content */}
       {currentPage === "table" ? (
         <div className="container mx-auto">
           <h1 className="text-2xl font-bold text-center border-b pb-4 mb-4">응모자 정보</h1>
@@ -160,10 +160,15 @@ export default function Home() {
                 type="text"
                 placeholder="검색어를 입력하세요"
                 className="border p-2 w-80 h-10"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
-              <button className="h-10 px-4 py-2 bg-gray-500 text-white">검색</button>
+              <button
+                className="h-10 px-4 py-2 bg-gray-500 text-white"
+                onClick={() => setSearchTerm(searchInput)}
+              >
+                검색
+              </button>
             </div>
           </div>
           <div>
