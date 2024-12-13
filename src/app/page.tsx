@@ -3,7 +3,7 @@
 import Table from "@/components/share/table";
 import Image from "next/image";
 import { useState } from "react";
-
+import { useRouter } from 'next/navigation'
 const dummyData = [
   { no: 1, name: '홍길동', phone: '010-1234-5678', dob: '1990-01-01', consent: '동의', startTime: '2024-01-01 12:00' },
   { no: 2, name: '김철수', phone: '010-2345-6789', dob: '1992-02-02', consent: '동의', startTime: '2024-01-02 13:00' },
@@ -20,7 +20,7 @@ const columns = [
 
 export default function Home() {
   const [search, setSearch] = useState("");
-
+  const router = useRouter()
   return (
     <div className="p-4 font-sans">
       <div className="flex justify-between items-center mb-4">
@@ -34,7 +34,7 @@ export default function Home() {
         </div>
         <div className="flex items-end gap-3 flex-col">
           <h1 className="font-bold text-xl text-end">관리자님 환영합니다.</h1>
-          <button className="text-sm text-gray-600 border px-3 py-2 border-gray-600">로그아웃</button>
+          <button onClick={() => router.push('/login')} className="text-sm text-gray-600 border px-3 py-2 border-gray-600">로그아웃</button>
         </div>
       </div>
 
