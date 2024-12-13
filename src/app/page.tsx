@@ -7,15 +7,26 @@ import { useRouter } from 'next/navigation'
 import PhotoGrid from "@/components/share/photoGrid";
 
 const dummyData = [
-  { no: 1, name: '홍길동', phone: '010-1234-5678', dob: '1990-01-01', consent: '동의', startTime: '2024-01-01 12:00' },
-  { no: 2, name: '김철수', phone: '010-2345-6789', dob: '1992-02-02', consent: '동의', startTime: '2024-01-02 13:00' },
+  { no: 1, name: '홍길동', phone: '010-1234-5678', birth: '1990-01-01', consent: '동의', startTime: '2024-01-01 12:00' },
+  { no: 2, name: '김철수', phone: '010-2345-6789', birth: '1992-02-02', consent: '동의', startTime: '2024-01-02 13:00' },
+  { no: 3, name: '이영희', phone: '010-3456-7890', birth: '1995-03-03', consent: '비동의', startTime: '2024-01-03 14:00' },
+  { no: 4, name: '박민수', phone: '010-4567-8901', birth: '1988-04-04', consent: '동의', startTime: '2024-01-04 15:00' },
+  { no: 5, name: '정수진', phone: '010-5678-9012', birth: '1985-05-05', consent: '비동의', startTime: '2024-01-05 16:00' },
+  { no: 6, name: '최영민', phone: '010-6789-0123', birth: '1999-06-06', consent: '동의', startTime: '2024-01-06 17:00' },
+  { no: 7, name: '김하늘', phone: '010-7890-1234', birth: '1991-07-07', consent: '비동의', startTime: '2024-01-07 18:00' },
+  { no: 8, name: '이민호', phone: '010-8901-2345', birth: '1983-08-08', consent: '동의', startTime: '2024-01-08 19:00' },
+  { no: 9, name: '안지현', phone: '010-9012-3456', birth: '1996-09-09', consent: '비동의', startTime: '2024-01-09 20:00' },
+  { no: 10, name: '장수원', phone: '010-0123-4567', birth: '1980-10-10', consent: '동의', startTime: '2024-01-10 21:00' },
+  { no: 11, name: '오승민', phone: '010-4321-8765', birth: '1993-11-11', consent: '비동의', startTime: '2024-01-11 22:00' },
+  { no: 12, name: '윤소라', phone: '010-8765-4321', birth: '1997-12-12', consent: '동의', startTime: '2024-01-12 23:00' },
 ];
+
 
 const columns = [
   { key: 'no', header: 'No' },
   { key: 'name', header: '고객명' },
   { key: 'phone', header: '전화번호' },
-  { key: 'dob', header: '생년월일' },
+  { key: 'birth', header: '생년월일' },
   { key: 'consent', header: '정보동의' },
   { key: 'startTime', header: '응모시작' },
 ];
@@ -88,9 +99,14 @@ const videoData = [
 ];
 
 export default function Home() {
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState<"table" | "video">("table"); // State to toggle view
+  const [currentPage, setCurrentPage] = useState<"table" | "video">("table");
   const router = useRouter();
+  const [filterColumn, setFilterColumn] = useState(columns[1].key);
+  const [search, setSearch] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const filteredData = dummyData.filter((item: any) =>
+    item[filterColumn]?.toString().toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="p-4 font-sans">
@@ -128,8 +144,16 @@ export default function Home() {
         <div className="container mx-auto">
           <h1 className="text-2xl font-bold text-center border-b pb-4 mb-4">응모자 정보</h1>
           <div className="flex items-center my-8">
-            <select className="border p-2 mr-2 w-52">
-              <option>고객명</option>
+            <select
+              className="border p-2 mr-2 w-52"
+              value={filterColumn}
+              onChange={(e) => setFilterColumn(e.target.value)}
+            >
+              {columns.slice(1).map((col) => (
+                <option key={col.key} value={col.key}>
+                  {col.header}
+                </option>
+              ))}
             </select>
             <div className="flex items-center">
               <input
@@ -143,7 +167,7 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <Table data={dummyData} columns={columns} />
+            <Table data={filteredData} columns={columns} />
           </div>
         </div>
       ) : (
