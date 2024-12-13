@@ -39,29 +39,31 @@ export default function Home() {
       </div>
 
       <div className="flex space-x-4 h-11 border-t border-b-2 border-b-black mb-8 justify-center ">
-        <button className="pb-2 w-32 bg-black text-white flex items-center justify-center">QUIZ 1</button>
-        <button className="pb-2 w-32 text-gray-500">QUIZ 2</button>
+        <button className="pb-2 w-32 bg-black text-white flex items-center justify-center">응모자 정보</button>
+        <button className="pb-2 w-32 text-gray-500">동영상</button>
       </div>
+      <div className="container mx-auto">
+        <h1 className="text-2xl font-bold text-center border-b pb-4 mb-4">응모자 정보</h1>
 
-      <h1 className="text-2xl font-bold text-center border-b pb-4 mb-4">QUIZ 1</h1>
-
-      <div className="flex items-center my-8">
-        <select className="border p-2 mr-2 w-52">
-          <option>고객명</option>
-        </select>
-        <div className="flex items-center">
-          <input
-            type="text"
-            placeholder="검색어를 입력하세요"
-            className="border p-2 w-80 h-10"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="h-10 px-4 py-2 bg-gray-500 text-white">검색</button>
+        <div className="flex items-center my-8">
+          <select className="border p-2 mr-2 w-52">
+            <option>고객명</option>
+          </select>
+          <div className="flex items-center">
+            <input
+              type="text"
+              placeholder="검색어를 입력하세요"
+              className="border p-2 w-80 h-10"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button className="h-10 px-4 py-2 bg-gray-500 text-white">검색</button>
+          </div>
+        </div>
+        <div >
+          <Table data={dummyData} columns={columns} />
         </div>
       </div>
-
-      <Table data={dummyData} columns={columns} />
     </div >
   );
 }
